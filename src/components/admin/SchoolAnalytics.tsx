@@ -212,6 +212,41 @@ const SchoolAnalytics: React.FC<SchoolAnalyticsProps> = ({ students, sessions })
           </div>
         </div>
       </div>
+
+      {/* Student Attendance Table */}
+      <div className="bg-white rounded-xl p-6 shadow-sm border mt-6">
+        <h3 className="text-lg font-semibold mb-4">Student Attendance (This Month)</h3>
+        <div className="overflow-x-auto">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead>
+              <tr>
+                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Student</th>
+                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Sessions Attended</th>
+              </tr>
+            </thead>
+            <tbody>
+              {students.map(student => {
+                // Count sessions for this student in the current month
+                const sessionCount = sessions.filter(session => {
+                  const sessionDate = new Date(session.date);
+                  const now = new Date();
+                  return (
+                    session.studentId === student.id &&
+                    sessionDate.getMonth() === now.getMonth() &&
+                    sessionDate.getFullYear() === now.getFullYear()
+                  );
+                }).length;
+                return (
+                  <tr key={student.id}>
+                    <td className="px-4 py-2">{student.name}</td>
+                    <td className="px-4 py-2">{sessionCount}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   );
 };
