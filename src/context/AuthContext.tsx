@@ -47,6 +47,22 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const login = async (email: string, password: string, role: 'student' | 'admin'): Promise<boolean> => {
     setLoading(true);
+    // DEMO MOCK: If demo credentials, skip backend and set user directly
+    if (
+      (email === 'admin@admin.com' && password === 'admin' && role === 'admin') ||
+      (email === 'student@student.com' && password === 'student' && role === 'student')
+    ) {
+      const userObj = {
+        id: role === 'admin' ? 'admin001' : 'student001',
+        name: role === 'admin' ? 'Admin User' : 'Student User',
+        email,
+        role,
+      };
+      setUser(userObj);
+      localStorage.setItem('ganesh-driving-user', JSON.stringify(userObj));
+      setLoading(false);
+      return true;
+    }
     try {
       const response = await fetch('http://127.0.0.1:5000/users/login', {
         method: 'POST',
