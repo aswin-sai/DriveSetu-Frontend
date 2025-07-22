@@ -7,6 +7,7 @@ import SessionLogger from './SessionLogger';
 import SchoolAnalytics from './SchoolAnalytics';
 import StudentDetails from './StudentDetails';
 import UserManagement from './UserManagement';
+import AttendancePage from './AttendancePage';
 
 const AdminDashboard: React.FC = () => {
   const { user } = useAuth();
@@ -19,6 +20,7 @@ const AdminDashboard: React.FC = () => {
     { id: 'users', label: 'User Management', icon: '👤' },
     { id: 'logger', label: 'Record Session', icon: '📝' },
     { id: 'analytics', label: 'Analytics', icon: '📊' },
+    { id: 'attendance', label: 'Attendance', icon: '📅' },
   ];
 
   const handleStudentSelect = (studentId: string) => {
@@ -73,6 +75,7 @@ const AdminDashboard: React.FC = () => {
           {activeTab === 'users' && <UserManagement />}
           {activeTab === 'logger' && <SessionLogger students={students} />}
           {activeTab === 'analytics' && <SchoolAnalytics students={students} sessions={sessions} />}
+          {activeTab === 'attendance' && <AttendancePage />}
           {activeTab === 'details' && selectedStudentId && (
             <StudentDetails studentId={selectedStudentId} />
           )}
