@@ -10,12 +10,12 @@ const SessionHistory: React.FC<SessionHistoryProps> = ({ sessions }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterType, setFilterType] = useState('all');
 
-  const sessionTypes = ['all', ...new Set(sessions.map(s => s.sessionType))];
+  const sessionTypes = ['all', ...new Set(sessions.map(s => s.sessionType).filter(Boolean))];
 
   const filteredSessions = sessions.filter(session => {
-    const matchesSearch = session.instructor.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         session.sessionType.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         session.location.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesSearch = (session.instructor?.toLowerCase() || '').includes(searchTerm.toLowerCase()) ||
+                         (session.sessionType?.toLowerCase() || '').includes(searchTerm.toLowerCase()) ||
+                         (session.location?.toLowerCase() || '').includes(searchTerm.toLowerCase());
     const matchesType = filterType === 'all' || session.sessionType === filterType;
     return matchesSearch && matchesType;
   });
@@ -60,31 +60,31 @@ const SessionHistory: React.FC<SessionHistoryProps> = ({ sessions }) => {
                 <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-2">
-                      <h3 className="font-semibold text-lg">{session.sessionType}</h3>
+                      <h3 className="font-semibold text-lg">{session.sessionType || 'Unknown Type'}</h3>
                       <span className="px-2 py-1 bg-blue-100 text-blue-800 text-sm rounded-full">
-                        {session.instructor}
+                        {session.instructor || 'Unknown Instructor'}
                       </span>
                     </div>
                     
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-sm text-gray-600">
                       <div className="flex items-center gap-2">
                         <Calendar className="w-4 h-4" />
-                        {new Date(session.date).toLocaleDateString()}
+                        {session.date ? new Date(session.date).toLocaleDateString() : 'Unknown Date'}
                       </div>
                       
                       <div className="flex items-center gap-2">
                         <Clock className="w-4 h-4" />
-                        {session.startTime} - {session.endTime}
+                        {session.startTime || 'N/A'} - {session.endTime || 'N/A'}
                       </div>
                       
                       <div className="flex items-center gap-2">
                         <Route className="w-4 h-4" />
-                        {session.distance} km
+                        {session.distance || 0} km
                       </div>
                       
                       <div className="flex items-center gap-2">
                         <MapPin className="w-4 h-4" />
-                        {session.location}
+                        {session.location || 'Unknown Location'}
                       </div>
                     </div>
                     

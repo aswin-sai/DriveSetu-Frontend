@@ -244,22 +244,7 @@ const LoginPage: React.FC = () => {
                   </span>
                 </motion.button>
 
-                <div className="flex justify-end gap-2 mb-4">
-                  <button
-                    type="button"
-                    className="px-3 py-2 bg-orange-100 text-orange-700 rounded hover:bg-orange-200 text-sm"
-                    onClick={() => fillDemoCredentials('admin')}
-                  >
-                    Demo Admin Login
-                  </button>
-                  <button
-                    type="button"
-                    className="px-3 py-2 bg-blue-100 text-blue-700 rounded hover:bg-blue-200 text-sm"
-                    onClick={() => fillDemoCredentials('student')}
-                  >
-                    Demo Student Login
-                  </button>
-                </div>
+                {/* Remove the demo login buttons here */}
               </div>
             </form>
 
